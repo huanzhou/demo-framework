@@ -79,7 +79,7 @@ public class Finder
 	public String getRowCountHql()
 	{
 		// 对于from之前的hql语句要转换为select count(*)或select count(属性)
-		// from之后的hql语句要去掉order by和fetch关键字
+//		 from之后的hql语句要去掉order by和fetch关键字//
 		String hql = hqlBuilder.toString();
 
 		int fromIndex = hql.toLowerCase().indexOf(FROM);
