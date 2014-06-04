@@ -4,5 +4,70 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	default-lazy-init="true">
+	<context:annotation-config />
+	<context:component-scan base-package="net.tatans.project.cms"></context:component-scan>
+	<bean id="localeResolver"
+		class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="cookieName" value="clientlanguage" />
+		<property name="cookieMaxAge" value="-1" />
+	</bean>
 
+	<!-- View resolvers -->
+	<!-- View exception resolver -->
+	<bean
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop
+					key="org.springframework.web.bind.MissingServletRequestParameterException">/error/requiredParameter</prop>
+				<prop key="org.springframework.beans.TypeMismatchException">/error/mismatchParameter</prop>
+				<prop key="org.springframework.web.bind.ServletRequestBindingException">/error/bindException</prop>
+				<prop key="org.springframework.dao.DataIntegrityViolationException">/error/integrityViolation</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="freemarkerViewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+		<property name="prefix" value="/views/" />
+		<property name="suffix" value=".html" />
+		<property name="contentType" value="text/html; charset=UTF-8" />
+		<property name="exposeRequestAttributes" value="false" />
+		<property name="exposeSessionAttributes" value="false" />
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="order" value="1"/>
+	</bean>
+	<bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath" value="/WEB-INF" />
+		<!-- <property name="freemarkerVariables">
+			<map>
+				在FCK编辑器中需要用到appBase，以确定connector路径。 -->
+				<!--<entry key="appBase" value="/cms/admin" />
+				后台管理权限控制 -->
+				<!--<entry key="cms_perm" value-ref="cms_perm" />
+				<entry key="text_cut" value-ref="text_cut" />
+				<entry key="html_cut" value-ref="html_cut" />
+			</map>
+		</property> -->
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="template_update_delay">0</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="url_escaping_charset">UTF-8</prop>
+				<prop key="locale">zh_CN</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="number_format">0.######</prop>
+				<prop key="whitespace_stripping">true</prop>
+				<!-- <prop key="auto_import">/ftl/cms/index.ftl as p,/ftl/spring.ftl as s</prop> -->
+			</props>
+		</property>
+	</bean>
+	<context:annotation-config />
+	<context:component-scan base-package="net.tatans.project.cms.action"></context:component-scan>
 </beans>
